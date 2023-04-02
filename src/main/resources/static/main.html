@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Delivery Fee Calculator</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<h1>Delivery Fee Calculator</h1>
+<form id="deliveryForm">
+    <div class="row">
+        <div class="column">
+            <label for="city">City</label>
+            <select name="city" id="city">
+                <option selected disabled>Choose a city</option>
+                <option value="Tallinn-Harku">Tallinn</option>
+                <option value="Tartu-Tõravere">Tartu</option>
+                <option value="Pärnu">Pärnu</option>
+            </select>
+        </div>
+        <div class="column">
+            <label for="vehicle">Vehicle Type</label>
+            <select name="vehicle" id="vehicle">
+                <option selected disabled>Choose a vehicle</option>
+                <option value="Car">Car</option>
+                <option value="Scooter">Scooter</option>
+                <option value="Bike">Bike</option>
+            </select>
+        </div>
+    </div>
+
+    <br>
+    <button type="submit">Confirm</button>
+</form>
+
+<h1 id="result"></h1>
+
+<script>
+    const form = document.querySelector('#deliveryForm');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const city = document.querySelector('#city').value;
+        const vehicle = document.querySelector('#vehicle').value;
+
+        const response = await fetch(`/delivery/fee?city=${city}&vehicleType=${vehicle}`);
+        const data = await response.json();
+
+        document.querySelector('#result').textContent = `The delivery fee is ${data.fee}€`;
+    });
+</script>
+</body>
+</html>
